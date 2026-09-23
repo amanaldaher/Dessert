@@ -1,14 +1,13 @@
-const managerWhatsApp = "963939993792";
+const managerWhatsApp = "963981853998";
 let currentRating = 0;
 
 document.addEventListener("DOMContentLoaded", () => {
     fixAndNormalizeOrdersData();
     checkUserState();
     checkManagerSession();
-    initTheme(); // تفعيل فحص ثيم الجهاز أو الذاكرة تلقائياً
+    initTheme();
 });
 
-// دالة ضبط الثيم (تلقائي حسب الجهاز أو المحفوظ مسبقاً)
 function initTheme() {
     const savedTheme = localStorage.getItem('theme');
     const sidebarThemeBtn = document.getElementById('sidebar-theme-btn');
@@ -28,7 +27,6 @@ function initTheme() {
     }
 }
 
-// دالة مساعدة لتحديث شكل الأيقونة في القائمة الجانبية
 function updateThemeIcon(theme, btn) {
     if (!btn) return;
     if (theme === 'dark') {
@@ -38,7 +36,6 @@ function updateThemeIcon(theme, btn) {
     }
 }
 
-// زر تبديل الثيم اليدوي من القائمة الجانبية
 const sidebarThemeBtn = document.getElementById('sidebar-theme-btn');
 if (sidebarThemeBtn) {
     sidebarThemeBtn.addEventListener('click', () => {
@@ -55,7 +52,6 @@ if (sidebarThemeBtn) {
     });
 }
 
-// دالة الانتقال للرئيسية وتوجيه المستخدم للقسم المطلوب بسلاسة من أي صفحة
 function goToSection(sectionId) {
     switchView('home-view');
     setTimeout(() => {
