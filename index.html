@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أصالة الحلويات العربية الحمصية - موسوعة حمص الكبرى</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- شريط التنقل العلوي -->
+    <header class="navbar">
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <button id="sidebar-toggle" onclick="toggleSidebar()" style="background: transparent; color: var(--text-color); font-size: 1.4rem; padding: 5px; cursor: pointer; border: none;"><i class="fa-solid fa-bars"></i></button>
+            <div class="logo">
+                <i class="fa-solid fa-cookie-bite"></i>
+                <span>أصالة الحلويات الحمصية</span>
+            </div>
+        </div>
+        <nav class="nav-links">
+            <a href="#" onclick="goToSection('kunafa-section')">الكنافة والساخن</a>
+            <a href="#" onclick="goToSection('baklava-section')">البقلاوة والبللورية</a>
+            <a href="#" onclick="goToSection('cream-section')">القشطات والبارد</a>
+            <a href="#" onclick="goToSection('crispy-section')">المقرمشات والمشابك</a>
+            <a href="#" onclick="goToSection('hospitality-section')">الضيافة والمعمول</a>
+        </nav>
+        <div class="nav-actions">
+            <button onclick="switchView('home-view')" class="btn-primary"><i class="fa-solid fa-house"></i> الرئيسية</button>
+        </div>
+    </header>
+
+    <!-- القائمة الجانبية (Sidebar) -->
+    <div id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <h3>قائمة الخيارات</h3>
+            <span class="close-sidebar" onclick="toggleSidebar()">&times;</span>
+        </div>
+        <div class="sidebar-links">
+            <a href="#" onclick="switchView('home-view')"><i class="fa-solid fa-house"></i> الرئيسية والموسوعة</a>
+            <a href="#" onclick="switchView('account-view')"><i class="fa-solid fa-user-gear"></i> حسابي وإعداداتي والمشتريات</a>
+            <a href="#" onclick="switchView('rating-view')"><i class="fa-solid fa-star"></i> تقييم الخدمة</a>
+            <a href="#" onclick="switchView('contact-view')"><i class="fa-solid fa-headset"></i> تواصل معنا</a>
+            <a href="#" onclick="checkManagerAccess()"><i class="fa-solid fa-lock"></i> إدارة المحل (الأدمن)</a>
+            <a href="#" id="sidebar-theme-btn"><i class="fa-solid fa-moon"></i> تبديل الثيم (ليلي/نهاري)</a>
+        </div>
+    </div>
+    <div id="sidebar-overlay" class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <!-- الواجهات الكاملة ضمن الموقع -->
+    
+    <!-- 1. واجهة الرئيسية (Home View) -->
+    <div id="home-view" class="main-view active">
+        <section class="hero">
+            <div class="hero-content">
+                <h1>موسوعة الطعم الأصيل.. عراقة الضيافة الحمصية</h1>
+                <p>أضخم تشكيلة من الحلويات العربية الفاخرة، المصنوعة بعناية وسمن حيواني صافي.</p>
+                <a href="#kunafa-section" class="btn-cta">استكشف الموسوعة الآن</a>
+            </div>
+        </section>
+
+        <!-- القسم الأول: الكنافة والحلويات الساخنة -->
+        <section id="kunafa-section" class="menu-section">
+            <h2>أولاً: قسم الكنافة والحلويات الساخنة</h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="img-container"><img src="images/1kunafa.jpg" alt="كنافة نابلسية"></div>
+                    <div class="product-info">
+                        <h3>كنافة نابلسية خشنة بالجبن</h3>
+                        <p class="desc">جبنة عكاكية أصلية مطاطية، شعيرية ذهبية مقرمشة، وسمن بلدي مع رشة فستق.</p>
+                        <div class="price-box"><span class="price-syp">90,000 ل.س</span><span class="price-usd">/ 6.5$</span></div>
+                        <button class="btn-buy" onclick="orderProduct('كنافة نابلسية خشنة', '90,000 ل.س', '/ 6.5$')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="img-container"><img src="images/9naameh.jpg" alt="كنافة ناعمة"></div>
+                    <div class="product-info">
+                        <h3>كنافة ناعمة بالفرن</h3>
+                        <p class="desc">طبقة سميد ناعمة ومخملية مغطاة بالجبن الذائب ومسقية بالقطر الأصلي الساخن.</p>
+                        <div class="price-box"><span class="price-syp">85,000 ل.س</span><span class="price-usd">/ 6$</span></div>
+                        <button class="btn-buy" onclick="orderProduct('كنافة ناعمة بالفرن', '85,000 ل.س', '/ 6$')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="img-container"><img src="images/10znoud.jpg" alt="زنود الست"></div>
+                    <div class="product-info">
+                        <h3>زنود الست بالقشطة العربية</h3>
+                        <p class="desc">رقائق عجين مقرمشة محشية بالقشطة البلدية الطازجة ومغمورة بالفستق الحلبي.</p>
+                        <div class="price-box"><span class="price-syp">95,000 ل.س</span><span class="price-usd">/ 7$</span></div>
+                        <button class="btn-buy" onclick="orderProduct('زنود الست', '95,000 ل.س', '/ 7$')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- القسم الثاني: البقلاوة والمبرومة والبللورية -->
+        <section id="baklava-section" class="menu-section" style="background-color: var(--card-bg);">
+            <h2>ثانياً: قسم البقلاوة والمبرومة والبللورية الملكية</h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="img-container"><img src="images/2mabrouma.jpg" alt="مبرومة بالفستق"></div>
+                    <div class="product-info">
+                        <h3>مبرومة فستق حلبي ملكية</h3>
+                        <p class="desc">أصابع المبرومة المصنوعة بعناية، مغمورة كلياً بالفستق الحلبي الأخضر الصافي.</p>
+                        <div class="price-box"><span class="price-syp">110,000 ل.س</span><span class="price-usd">/ 8$</span></div>
+                        <button class="btn-buy" onclick="orderProduct('مبرومة فستق ملكية', '110,000 ل.س', '/ 8$')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="img-container"><img src="images/3baklava.jpg" alt="بقلاوة مشكلة"></div>
+                    <div class="product-info">
+                        <h3>بقلاوة مشكلة باللوز والفستق</h3>
+                        <p class="desc">تشكيلة ملكية من رقائق العجين الهشة المحشية بالمكسرات ومزينة بورد الجوري.</p>
+                        <div class="price-box"><span class="price-syp">85,000 ل.س</span><span class="price-usd">/ 6$</span></div>
+                        <button class="btn-buy" onclick="orderProduct('بقلاوة مشكلة', '85,000 ل.س', '/ 6$')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="img-container"><img src="images/11ballourieh.jpg" alt="هرم البللورية"></div>
+                    <div class="product-info">
+                        <h3>هرم البللورية بالفستق الصافي</h3>
+                        <p class="desc">شكل هرمي فاخر من شعيرية البللورية المحمصة ومملوءة تماماً بالفستق الحلبي الأخضر.</p>
+                        <div class="price-box"><span class="price-syp">115,000 ل.س</span><span class="price-usd">/ 8.5$</span></div>
+                        <button class="btn-buy" onclick="orderProduct('هرم البللورية', '115,000 ل.س', '/ 8.5$')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="img-container"><img src="images/15ballourieh_circle.jpg" alt="صينية بللورية دائرية"></div>
+                    <div class="product-info">
+                        <h3>صينية بللورية دائرية فاخرة</h3>
+                        <p class="desc">صينية دائرية منسقة بعناية لتقدم أشهى طعم مقرمش وغني بالفستق الحلبي.</p>
+                        <div class="price-box"><span class="price-syp">105,000 ل.س</span><span class="price-usd">/ 7.5$</span></div>
+                        <button class="btn-buy" onclick="orderProduct('صينية بللورية دائرية', '105,000 ل.س', '/ 7.5$')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- القسم الثالث: القشطات والحلويات الباردة -->
+        <section id="cream-section" class="menu-section">
+            <h2>ثالثاً: قسم القشطات والحلويات الباردة</h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="img-container"><img src="images/4halawat_el_jibn.jpg" alt="حلاوة الجبن"></div>
+                    <div class="product-info">
+                        <h3>حلاوة الجبن الحمصية الأصيلة</h3>
+                        <p class="desc">عجينة الجبن والسميد الطرية، محشية بالقشطة البلدية الغنية ومزينة بالفستق.</p>
+                        <div class="price-box"><span class="price-syp">80,000 ل.س</span><span class="price-usd">/ 5.5$</span></div>
+                        <button class="btn-buy" onclick="orderProduct('حلاوة الجبن الحمصية', '80,000 ل.س', '/ 5.5$')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="img-container"><img src="images/5qatayef.jpg" alt="قطايف عصافيري"></div>
+                    <div class="product-info">
+                        <h3>قطايف عصافيري بالقشطة</h3>
+                        <p class="desc">حبات القطايف الطازجة المصنوعة يومياً، المحشية بالقشطة ومغمورة بالفستق.</p>
+                        <div class="price-box"><span class="price-syp">75,000 ل.س</span><span class="price-usd">/ 5$</span></div>
+                        <button class="btn-buy" onclick="orderProduct('قطايف عصافيري بالقشطة', '75,000 ل.س', '/ 5$')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="img-container"><img src="images/6boza.jpg" alt="بوظة عربية"></div>
+                    <div class="product-info">
+                        <h3>بوظة عربية بالفستق الحلبي</h3>
+                        <p class="desc">بوظة المستكة الحرة المدقوقة عراقةً وأصالة، مغطاة بالفستق الحلبي الغزير.</p>
+                        <div class="price-box"><span class="price-syp">70,000 ل.س</span><span class="price-usd">/ 5$</span></div>
+                        <button class="btn-buy" onclick="orderProduct('بوظة عربية بالفستق', '70,000 ل.س', '/ 5$')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="img-container"><img src="images/8layali.jpg" alt="ليالي لبنان"></div>
+                    <div class="product-info">
+                        <h3>ليالي لبنان بالقشطة والورد</h3>
+                        <p class="desc">طبقات ناعمة من السميد والحليب المغطاة بالقشطة الطازجة والمزينة بالفستق.</p>
+                        <div class="price-box"><span class="price-syp">65,000 ل.س</span><span class="price-usd">/ 4.5$</span></div>
+                        <button class="btn-buy" onclick="orderProduct('ليالي لبنان', '65,000 ل.س', '/ 4.5$')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- القسم الرابع: المقرمشات والمشابك -->
+        <section id="crispy-section" class="menu-section" style="background-color: var(--card-bg);">
+            <h2>رابعاً: قسم المقرمشات والمشابك وبلح الشام</h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="img-container"><img src="images/12moshabbak.jpg" alt="مشابك مقرمشة"></div>
+                    <div class="product-info">
+                        <h3>مشابك وعوامة مقرمشة</h3>
+                        <p class="desc">حبات العوامة والمشابك الذهبية المغمورة بالقطر الساخن ورشة فستق حلبي.</p>
+                        <div class="price-box"><span class="price-syp">55,000 ل.س</span><span class="price-usd">/ 3.5$</span></div>
+                        <button class="btn-buy" onclick="orderProduct('مشابك وعوامة مقرمشة', '55,000 ل.س', '/ 3.5$')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="img-container"><img src="images/13balah.jpg" alt="بلح الشام"></div>
+                    <div class="product-info">
+                        <h3>بلح الشام المقرمش بالسمن</h3>
+                        <p class="desc">أصابع بلح الشام المقرمشة من الخارج والطرية من الداخل، مغطاة بالقطر الغزير.</p>
+                        <div class="price-box"><span class="price-syp">60,000 ل.س</span><span class="price-usd">/ 4$</span></div>
+                        <button class="btn-buy" onclick="orderProduct('بلح الشام المقرمش', '60,000 ل.س', '/ 4$')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- القسم الخامس: الضيافة والمعمول -->
+        <section id="hospitality-section" class="menu-section">
+            <h2>خامساً: قسم الضيافة ومعمول العيد والبرازق</h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="img-container"><img src="images/7maamoul.jpg" alt="معمول بالفستق والتمر"></div>
+                    <div class="product-info">
+                        <h3>معمول فستق وتمر بالسمن البلدي</h3>
+                        <p class="desc">حبات المعمول الغنية بالسمن البلدي والمحشية بالتمر المعطر أو الفستق.</p>
+                        <div class="price-box"><span class="price-syp">85,000 ل.س</span><span class="price-usd">/ 6$</span></div>
+                        <button class="btn-buy" onclick="orderProduct('معمول فستق وتمر', '85,000 ل.س', '/ 6$')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="img-container"><img src="images/14barazek.jpg" alt="برازق شامية"></div>
+                    <div class="product-info">
+                        <h3>برازق شامية أصلية بالقرص الكبير</h3>
+                        <p class="desc">برازق مقرمشة مغطاة بغزارة بالسمسم المحمص والفستق الحلبي على طريقة الأجداد.</p>
+                        <div class="price-box"><span class="price-syp">65,000 ل.س</span><span class="price-usd">/ 4.5$</span></div>
+                        <button class="btn-buy" onclick="orderProduct('برازق شامية أصلية', '65,000 ل.س', '/ 4.5$')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- 2. واجهة حسابي وإعداداتي والمشتريات -->
+    <div id="account-view" class="main-view">
+        <div class="page-container">
+            <h2>حسابي وإعداداتي وسجل المشتريات 👤</h2>
+            <div id="account-login-box" class="card-box">
+                <h3>تسجيل دخول الزبون</h3>
+                <input type="text" id="user-name" placeholder="الاسم الكريم">
+                <input type="tel" id="user-phone" placeholder="رقم الهاتف السوري (09...)">
+                <button class="btn-primary full-width" onclick="saveUser()">حفظ وتسجيل</button>
+            </div>
+            <div id="account-info-box" class="card-box" style="display: none;">
+                <h3>إعدادات وتعديل بيانات الحساب ⚙️</h3>
+                <label style="font-size: 0.9rem; font-weight: bold; margin-top: 5px; display: block;">الاسم:</label>
+                <input type="text" id="edit-user-name" placeholder="الاسم الجديد">
+                <label style="font-size: 0.9rem; font-weight: bold; margin-top: 5px; display: block;">رقم الهاتف:</label>
+                <input type="tel" id="edit-user-phone" placeholder="رقم الهاتف الجديد">
+                <button class="btn-primary full-width" onclick="updateUserProfile()">تحديث البيانات</button>
+                
+                <div style="background: var(--bg-color); border: 1px solid var(--border-color); padding: 15px; border-radius: 8px; text-align: center; margin-top: 20px;">
+                    <span style="opacity: 0.8; font-size: 0.9rem;">إجمالي المدفوعات والمشتريات الكلية</span>
+                    <h2 id="total-payments-display" style="color: var(--accent-color); margin: 8px 0;">0 ل.س</h2>
+                    <p id="total-payments-usd" style="font-weight: bold; opacity: 0.9;">$0.00</p>
+                </div>
+
+                <h3 style="margin-top: 25px; font-size: 1.1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">سجل المشتريات والمدفوعات المفصل 🛍️</h3>
+                <ul id="full-orders-list" style="list-style: none; padding: 0; margin-top: 15px;"></ul>
+                
+                <button class="btn-danger full-width" onclick="logout()" style="margin-top: 25px;">تسجيل الخروج</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. واجهة تقييم الخدمة -->
+    <div id="rating-view" class="main-view">
+        <div class="page-container" style="text-align: center;">
+            <h2>تقييم خدمة المحل ⭐</h2>
+            <p style="margin: 15px 0;">اضغط على النجوم لتحديد تقييمك واكتب رأيك بصندوق الوصف</p>
+            <div class="card-box">
+                <div id="star-rating-container" style="font-size: 2.2rem; color: #ccc; margin-bottom: 15px; cursor: pointer;">
+                    <i class="fa-solid fa-star" onclick="setRating(1)" onmouseover="hoverRating(1)" onmouseout="resetHover()"></i>
+                    <i class="fa-solid fa-star" onclick="setRating(2)" onmouseover="hoverRating(2)" onmouseout="resetHover()"></i>
+                    <i class="fa-solid fa-star" onclick="setRating(3)" onmouseover="hoverRating(3)" onmouseout="resetHover()"></i>
+                    <i class="fa-solid fa-star" onclick="setRating(4)" onmouseover="hoverRating(4)" onmouseout="resetHover()"></i>
+                    <i class="fa-solid fa-star" onclick="setRating(5)" onmouseover="hoverRating(5)" onmouseout="resetHover()"></i>
+                </div>
+                <p id="rating-text" style="font-weight: bold; color: var(--accent-color); margin-bottom: 10px;">اختر تقييمك</p>
+                <textarea id="rating-comment" placeholder="اكتب رأيك أو مقترحك بالتفصيل هنا..." style="width: 100%; height: 110px; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); font-family: 'Amiri'; margin-bottom: 15px; font-size: 1rem;"></textarea>
+                <button class="btn-primary full-width" onclick="submitRating()">إرسال التقييم</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. واجهة تواصل معنا -->
+    <div id="contact-view" class="main-view">
+        <div class="page-container">
+            <h2>تواصل معنا 📞</h2>
+            <div class="card-box" style="text-align: center;">
+                <p>📍 العنوان: حمص - المركز الرئيسي</p>
+                <p>📱 الهاتف / واتساب: 0939993792</p>
+                <p>⏰ أوقات العمل: يومياً من 9 الصباح حتى 12 الفجر</p>
+                <a href="https://wa.me/963939993792" target="_blank" class="btn-primary" style="display: inline-block; margin-top: 15px; background: #25D366; text-decoration: none;"><i class="fa-brands fa-whatsapp"></i> مراسلة الإدارة مباشرة</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. واجهة لوحة تحكم المدير كصفحة كاملة مستقلة -->
+    <div id="manager-view" class="main-view">
+        <div class="page-container" style="max-width: 800px;">
+            <h2>لوحة تحكم المدير العام (الإدارة) 📊</h2>
+            <p style="margin-bottom: 20px;">مرحباً بالمدير: <span id="mgr-display-name" style="font-weight: bold; color: var(--accent-color);">مدير المحل</span></p>
+            
+            <div id="manager-login-box" class="card-box">
+                <h3>تسجيل دخول مدير المحل 🔒</h3>
+                <input type="text" id="mgr-fullname" placeholder="الاسم الثلاثي">
+                <input type="text" id="mgr-nationalid" placeholder="الرقم الوطني">
+                <input type="email" id="mgr-email" placeholder="البريد الإلكتروني للإدارة">
+                <input type="password" id="mgr-email-pass" placeholder="كلمة سر البريد الإلكتروني">
+                <input type="password" id="mgr-app-pass" placeholder="كلمة سر التطبيق">
+                <button class="btn-primary full-width" onclick="loginManager()">دخول لوحة التحكم</button>
+            </div>
+
+            <div id="manager-dashboard-box" style="display: none;">
+                <div class="card-box" style="margin-bottom: 20px;">
+                    <label style="font-size: 0.9rem; font-weight: bold; display: block; margin-bottom: 8px;">فلتر السجلات والتاريخ (يومي، أسبوعي، شهري، أو تاريخ ماضي):</label>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="date" id="admin-filter-date" style="flex: 1; padding: 8px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); border-radius: 6px;">
+                        <button class="btn-primary" onclick="filterManagerOrders()" style="padding: 8px 16px;">بحث بالتاريخ</button>
+                        <button class="btn-danger" onclick="resetManagerFilter()" style="padding: 8px 16px; background-color: #d9534f; color: #FFF;">عرض الكل</button>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 20px; text-align: center;">
+                    <div class="card-box" style="margin-bottom: 0; padding: 15px;">
+                        <span style="font-size: 0.85rem; opacity: 0.8;">مبيعات اليوم</span>
+                        <div id="mgr-daily" style="font-weight: bold; font-size: 1.1rem; color: var(--accent-color); margin-top: 5px;">0 ل.س</div>
+                    </div>
+                    <div class="card-box" style="margin-bottom: 0; padding: 15px;">
+                        <span style="font-size: 0.85rem; opacity: 0.8;">مبيعات الأسبوع</span>
+                        <div id="mgr-weekly" style="font-weight: bold; font-size: 1.1rem; color: var(--accent-color); margin-top: 5px;">0 ل.س</div>
+                    </div>
+                    <div class="card-box" style="margin-bottom: 0; padding: 15px;">
+                        <span style="font-size: 0.85rem; opacity: 0.8;">مبيعات الشهر</span>
+                        <div id="mgr-monthly" style="font-weight: bold; font-size: 1.1rem; color: var(--accent-color); margin-top: 5px;">0 ل.س</div>
+                    </div>
+                </div>
+
+                <div class="card-box">
+                    <h3 style="margin-bottom: 12px; font-size: 1.1rem;">سجل الطلبيات والفواتير الشامل 📑</h3>
+                    <ul id="manager-full-orders" style="list-style: none; padding: 0; max-height: 350px; overflow-y: auto;"></ul>
+                </div>
+
+                <button class="btn-danger full-width" onclick="logoutManager()" style="margin-top: 20px; background-color: #d9534f; color: #FFF;">تسجيل خروج الأدمن</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>جميع الحقوق محفوظة - تصميم وبرمجة واجهات عصرية 🌙✨</p>
+        <p>متواجدون في حمص - للتواصل المباشر: 0939993792</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
