@@ -305,7 +305,6 @@ function checkManagerAccess() {
     checkManagerSession();
 }
 
-// دالة تسجيل دخول المدير المحمية بكلمة سر التطبيق السرية
 function loginManager() {
     const fullname = document.getElementById('mgr-fullname').value.trim();
     const nationalId = document.getElementById('mgr-nationalid').value.trim();
@@ -313,7 +312,6 @@ function loginManager() {
     const emailPass = document.getElementById('mgr-email-pass').value.trim();
     const appPass = document.getElementById('mgr-app-pass').value.trim();
 
-    // كلمة سر التطبيق السرية الخاصة بكِ وحدكِ (فيكِ تغيريها لأي كلمة بتحبيها)
     const secretMasterPassword = "Aman_Admin_2026"; 
 
     if (!fullname || !nationalId || !email || !emailPass || !appPass) {
@@ -414,7 +412,16 @@ function checkUserState() {
         document.getElementById('edit-user-name').value = savedName;
         document.getElementById('edit-user-phone').value = savedPhone;
 
-        const orders = JSON.parse(localStorage.getItem('userOrders')) || JSON.parse(localStorage.getItem('adminAllOrders')) || [];
+        let primaryOrders = JSON.parse(localStorage.getItem('adminAllOrders')) || [];
+        let secondaryOrders = JSON.parse(localStorage.getItem('userOrders')) || [];
+        let combinedMap = new Map();
+        [...primaryOrders, ...secondaryOrders].forEach(o => {
+            if (o && (o.invoiceId || o.orderId)) {
+                combinedMap.set(o.invoiceId || o.orderId, o);
+            }
+        });
+        const orders = Array.from(combinedMap.values());
+        
         const fullOrdersList = document.getElementById('full-orders-list');
         const userOrders = orders.filter(o => o.phone === savedPhone || o.customerPhone === savedPhone);
 
