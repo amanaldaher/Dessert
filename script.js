@@ -1,11 +1,13 @@
 const managerWhatsApp = "963981853998";
 let currentRating = 0;
+let shoppingCart = JSON.parse(localStorage.getItem('myShoppingCart')) || [];
 
 document.addEventListener("DOMContentLoaded", () => {
     fixAndNormalizeOrdersData();
     checkUserState();
     checkManagerSession();
     initTheme();
+    updateCartUI();
 });
 
 function initTheme() {
@@ -74,7 +76,7 @@ function switchViewHomeOnly() {
 }
 
 function fixAndNormalizeOrdersData() {
-    let orders = JSON.parse(localStorage.getItem('userOrders')) || [];
+    let orders = JSON.parse(localStorage.getItem('adminAllOrders')) || JSON.parse(localStorage.getItem('userOrders')) || [];
     let updated = false;
     
     const savedName = localStorage.getItem('userName') || "زبون محلي";
@@ -118,6 +120,7 @@ function fixAndNormalizeOrdersData() {
     });
 
     if (updated) {
+        localStorage.setItem('adminAllOrders', JSON.stringify(orders));
         localStorage.setItem('userOrders', JSON.stringify(orders));
     }
 }
@@ -130,7 +133,9 @@ function toggleSidebar() {
 }
 
 function switchView(viewId) {
-    toggleSidebar();
+    if (viewId !== 'cart-view') {
+        toggleSidebar();
+    }
     document.querySelectorAll('.main-view').forEach(view => {
         view.classList.remove('active');
     });
@@ -139,6 +144,129 @@ function switchView(viewId) {
         target.classList.add('active');
         window.scrollTo(0, 0);
     }
+}
+
+// دوال سلة المشتريات
+function addToCart(productName, priceSyp, priceUsd) {
+    shoppingCart.push({
+        product: productName,
+        priceSyp: priceSyp,
+        priceUsd: priceUsd
+    });
+    localStorage.setItem('myShoppingCart', JSON.stringify(shoppingCart));
+    updateCartUI();
+    alert(`تمت إضافة "${productName}" إلى السلة بنجاح! 🛒`);
+}
+
+function removeFromCart(index) {
+    shoppingCart.splice(index, 1);
+    localStorage.setItem('myShoppingCart', JSON.stringify(shoppingCart));
+    updateCartUI();
+}
+
+function updateCartUI() {
+    const cartCounter = document.getElementById('cart-counter');
+    if (cartCounter) cartCounter.innerText = shoppingCart.length;
+
+    const cartList = document.getElementById('cart-items-list');
+    const totalSypDisplay = document.getElementById('cart-total-syp');
+    const totalUsdDisplay = document.getElementById('cart-total-usd');
+    if (!cartList) return;
+
+    cartList.innerHTML = '';
+    let totalSyp = 0;
+    let totalUsd = 0;
+
+    if (shoppingCart.length === 0) {
+        cartList.innerHTML = '<li style="text-align: center; opacity: 0.7; padding: 20px; display: block;">السلة فارغة حالياً.</li>';
+        if (totalSypDisplay) totalSypDisplay.innerText = '0 ل.س';
+        if (totalUsdDisplay) totalUsdDisplay.innerText = '($0.00)';
+        return;
+    }
+
+    shoppingCart.forEach((item, index) => {
+        const sypMatch = String(item.priceSyp).replace(/,/g, '').match(/\d+/);
+        const usdMatch = String(item.priceUsd).match(/[\d.]+/);
+        if (sypMatch) totalSyp += parseInt(sypMatch[0]);
+        if (usdMatch) totalUsd += parseFloat(usdMatch[0]);
+
+        const li = document.createElement('li');
+        li.innerHTML = `
+            <div class="cart-item-info">
+                <strong>${item.product}</strong>
+                <span style="font-size: 0.85rem; opacity: 0.8;">${item.priceSyp} (${item.priceUsd})</span>
+            </div>
+            <button class="btn-remove-item" onclick="removeFromCart(${index})">حذف</button>
+        `;
+        cartList.appendChild(li);
+    });
+
+    if (totalSypDisplay) totalSypDisplay.innerText = `${totalSyp.toLocaleString()} ل.س`;
+    if (totalUsdDisplay) totalUsdDisplay.innerText = `($${totalUsd.toFixed(2)})`;
+}
+
+function checkoutCart() {
+    if (shoppingCart.length === 0) {
+        alert('⚠️ السلة فارغة! الرجاء اختيار بعض الأصناف أولاً.');
+        return;
+    }
+
+    const savedName = localStorage.getItem('userName') || "زبون زائر";
+    const savedPhone = localStorage.getItem('userPhone') || "+963988888888";
+
+    const invoiceId = getNextInvoiceNumber();
+    const orderId = Math.floor(1000 + Math.random() * 9000);
+
+    const now = new Date();
+    const dateTimeString = `${now.getFullYear()}/${String(now.getMonth() + 1).padStart(2, '0')}/${String(now.getDate()).padStart(2, '0')} - ${String(now.getHours() % 12 || 12).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')} ${now.getHours() >= 12 ? 'PM' : 'AM'}`;
+
+    let totalSypSum = 0;
+    let totalUsdSum = 0;
+    let productsText = "";
+
+    shoppingCart.forEach((item, idx) => {
+        productsText += `\n${idx + 1}. ${item.product} - ${item.priceSyp} (${item.priceUsd})`;
+        const sypMatch = String(item.priceSyp).replace(/,/g, '').match(/\d+/);
+        const usdMatch = String(item.priceUsd).match(/[\d.]+/);
+        if (sypMatch) totalSypSum += parseInt(sypMatch[0]);
+        if (usdMatch) totalUsdSum += parseFloat(usdMatch[0]);
+    });
+
+    const finalPriceSyp = `${totalSypSum.toLocaleString()} ل.س`;
+    const finalPriceUsd = `/ $${totalUsdSum.toFixed(2)}`;
+
+    const newOrder = { 
+        invoiceId: invoiceId,
+        orderId: orderId,
+        customerName: savedName,
+        customerPhone: savedPhone,
+        phone: savedPhone,
+        product: `[سلة مشتريات تضم ${shoppingCart.length} أصناف]: ${productsText}`, 
+        priceSyp: finalPriceSyp, 
+        priceUsd: finalPriceUsd, 
+        dateTime: dateTimeString 
+    };
+
+    const adminOrders = JSON.parse(localStorage.getItem('adminAllOrders')) || [];
+    const userOrders = JSON.parse(localStorage.getItem('userOrders')) || [];
+    
+    adminOrders.push(newOrder);
+    userOrders.push(newOrder);
+    
+    localStorage.setItem('adminAllOrders', JSON.stringify(adminOrders));
+    localStorage.setItem('userOrders', JSON.stringify(userOrders));
+
+    shoppingCart = [];
+    localStorage.removeItem('myShoppingCart');
+    updateCartUI();
+    checkUserState();
+
+    const messageText = `مرحباً، أرغب بطلب فاتورة سلة المشتريات التالية (#${invoiceId}):\n${productsText}\n\n*الإجمالي الكلي:* ${finalPriceSyp} (${finalPriceUsd})\n\nمعلومات الزبون:\n- الاسم: ${savedName}\n- الهاتف: ${savedPhone}`;
+    
+    const encodedMessage = encodeURIComponent(messageText);
+    const whatsappUrl = `https://wa.me/${managerWhatsApp}?text=${encodedMessage}`;
+    
+    window.location.href = whatsappUrl;
 }
 
 function setRating(stars) {
@@ -177,6 +305,7 @@ function checkManagerAccess() {
     checkManagerSession();
 }
 
+// دالة تسجيل دخول المدير المحمية بكلمة سر التطبيق السرية
 function loginManager() {
     const fullname = document.getElementById('mgr-fullname').value.trim();
     const nationalId = document.getElementById('mgr-nationalid').value.trim();
@@ -184,14 +313,23 @@ function loginManager() {
     const emailPass = document.getElementById('mgr-email-pass').value.trim();
     const appPass = document.getElementById('mgr-app-pass').value.trim();
 
+    // كلمة سر التطبيق السرية الخاصة بكِ وحدكِ (فيكِ تغيريها لأي كلمة بتحبيها)
+    const secretMasterPassword = "Aman_Admin_2026"; 
+
     if (!fullname || !nationalId || !email || !emailPass || !appPass) {
         alert('⚠️ الرجاء تعبئة كافة حقول تسجيل الدخول الإداري!');
         return;
     }
+
+    if (appPass !== secretMasterPassword) {
+        alert('❌ كلمة سر التطبيق السرية غير صحيحة! الدخول مقتصر على مهندسة أمان فقط.');
+        return;
+    }
+
     localStorage.setItem('managerLoggedIn', 'true');
     localStorage.setItem('managerName', fullname);
     checkManagerSession();
-    alert('✅ أهلاً بك يا مدير المحل في لوحة التحكم الإدارية!');
+    alert('✅ أهلاً بكِ يا مهندسة أمان في لوحة التحكم الإدارية!');
 }
 
 function checkManagerSession() {
@@ -276,7 +414,7 @@ function checkUserState() {
         document.getElementById('edit-user-name').value = savedName;
         document.getElementById('edit-user-phone').value = savedPhone;
 
-        const orders = JSON.parse(localStorage.getItem('userOrders')) || [];
+        const orders = JSON.parse(localStorage.getItem('userOrders')) || JSON.parse(localStorage.getItem('adminAllOrders')) || [];
         const fullOrdersList = document.getElementById('full-orders-list');
         const userOrders = orders.filter(o => o.phone === savedPhone || o.customerPhone === savedPhone);
 
@@ -329,24 +467,33 @@ function logout() {
 }
 
 function loadManagerDashboard(filteredOrders = null) {
-    let orders = filteredOrders || JSON.parse(localStorage.getItem('adminAllOrders')) || JSON.parse(localStorage.getItem('userOrders')) || [];
+    let primaryOrders = JSON.parse(localStorage.getItem('adminAllOrders')) || [];
+    let secondaryOrders = JSON.parse(localStorage.getItem('userOrders')) || [];
     
-    // جلب خيار الترتيب من القائمة المنسدلة
+    let combinedMap = new Map();
+    [...primaryOrders, ...secondaryOrders].forEach(o => {
+        if (o && (o.invoiceId || o.orderId)) {
+            let key = o.invoiceId || o.orderId;
+            combinedMap.set(key, o);
+        }
+    });
+
+    let orders = filteredOrders || Array.from(combinedMap.values());
+    
     const sortSelect = document.getElementById('admin-sort-order');
     const sortValue = sortSelect ? sortSelect.value : 'newest';
 
-    // فرز الطلبيات (حسب الأحدث أولاً أو الأقدم أولاً)
     orders.sort((a, b) => {
-        let dateA = new Date(a.dateTime.replace(' - ', ' '));
-        let dateB = new Date(b.dateTime.replace(' - ', ' '));
+        let dateA = new Date((a.dateTime || "").replace(' - ', ' '));
+        let dateB = new Date((b.dateTime || "").replace(' - ', ' '));
         
         if (isNaN(dateA)) dateA = 0;
         if (isNaN(dateB)) dateB = 0;
 
         if (sortValue === 'oldest') {
-            return dateA - dateB; // الأقدم أولاً
+            return dateA - dateB;
         } else {
-            return dateB - dateA; // الأحدث أولاً
+            return dateB - dateA;
         }
     });
 
@@ -421,7 +568,16 @@ function filterManagerOrders() {
     const dateInput = document.getElementById('admin-filter-date').value;
     if (!dateInput) { alert('الرجاء اختيار تاريخ أولاً!'); return; }
 
-    const orders = JSON.parse(localStorage.getItem('adminAllOrders')) || JSON.parse(localStorage.getItem('userOrders')) || [];
+    let primaryOrders = JSON.parse(localStorage.getItem('adminAllOrders')) || [];
+    let secondaryOrders = JSON.parse(localStorage.getItem('userOrders')) || [];
+    let combinedMap = new Map();
+    [...primaryOrders, ...secondaryOrders].forEach(o => {
+        if (o && (o.invoiceId || o.orderId)) {
+            combinedMap.set(o.invoiceId || o.orderId, o);
+        }
+    });
+
+    const orders = Array.from(combinedMap.values());
     const formattedInput = dateInput.replace(/-/g, '/');
     const filtered = orders.filter(o => o.dateTime && o.dateTime.includes(formattedInput));
     loadManagerDashboard(filtered);
@@ -437,50 +593,4 @@ function getNextInvoiceNumber() {
     let nextInvoice = lastInvoice + 1;
     localStorage.setItem('lastInvoiceId', nextInvoice);
     return nextInvoice;
-}
-
-function orderProduct(productName, priceSyp, priceUsd) {
-    const savedName = localStorage.getItem('userName') || "زبون زائر";
-    const savedPhone = localStorage.getItem('userPhone') || "+963988888888";
-
-    const invoiceId = getNextInvoiceNumber();
-    const orderId = Math.floor(1000 + Math.random() * 9000);
-
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, '0');
-    const day = String(now.getDate()).padStart(2, '0');
-    const hours = String(now.getHours() % 12 || 12).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-    const ampm = now.getHours() >= 12 ? 'PM' : 'AM';
-    const dateTimeString = `${year}/${month}/${day} - ${hours}:${minutes} ${ampm}`;
-
-    const newOrder = { 
-        invoiceId: invoiceId,
-        orderId: orderId,
-        customerName: savedName,
-        customerPhone: savedPhone,
-        phone: savedPhone,
-        product: productName, 
-        priceSyp: priceSyp, 
-        priceUsd: priceUsd, 
-        dateTime: dateTimeString 
-    };
-
-    const userOrders = JSON.parse(localStorage.getItem('userOrders')) || [];
-    userOrders.push(newOrder);
-    localStorage.setItem('userOrders', JSON.stringify(userOrders));
-
-    const allAdminOrders = JSON.parse(localStorage.getItem('adminAllOrders')) || [];
-    allAdminOrders.push(newOrder);
-    localStorage.setItem('adminAllOrders', JSON.stringify(allAdminOrders));
-
-    checkUserState();
-
-    const messageText = `مرحباً، أرغب بطلب المنتج التالي:\n- الصنف: ${productName}\n- السعر: ${priceSyp} (${priceUsd})\n\nمعلومات الزبون:\n- الاسم: ${savedName}\n- الهاتف: ${savedPhone}`;
-    
-    const encodedMessage = encodeURIComponent(messageText);
-    const whatsappUrl = `https://wa.me/${managerWhatsApp}?text=${encodedMessage}`;
-    
-    window.location.href = whatsappUrl;
 }

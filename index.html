@@ -27,6 +27,7 @@
             <a href="#" onclick="goToSection('hospitality-section')">الضيافة والمعمول</a>
         </nav>
         <div class="nav-actions">
+            <button onclick="switchView('cart-view')" class="btn-primary" style="position: relative;"><i class="fa-solid fa-cart-shopping"></i> السلة <span id="cart-counter" style="background: #d9534f; color: #fff; padding: 1px 6px; border-radius: 50%; font-size: 0.75rem; margin-right: 5px;">0</span></button>
             <button onclick="switchView('home-view')" class="btn-primary"><i class="fa-solid fa-house"></i> الرئيسية</button>
         </div>
     </header>
@@ -70,7 +71,7 @@
                         <h3>كنافة نابلسية خشنة بالجبن</h3>
                         <p class="desc">جبنة عكاكية أصلية مطاطية، شعيرية ذهبية مقرمشة، وسمن بلدي مع رشة فستق.</p>
                         <div class="price-box"><span class="price-syp">90,000 ل.س</span><span class="price-usd">/ 6.5$</span></div>
-                        <button class="btn-buy" onclick="orderProduct('كنافة نابلسية خشنة', '90,000 ل.س', '/ 6.5$')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن</button>
+                        <button class="btn-buy" onclick="addToCart('كنافة نابلسية خشنة', '90,000 ل.س', '/ 6.5$')"><i class="fa-solid fa-cart-plus"></i> إضافة إلى السلة</button>
                     </div>
                 </div>
                 <div class="product-card">
@@ -79,7 +80,7 @@
                         <h3>كنافة ناعمة بالفرن</h3>
                         <p class="desc">طبقة سميد ناعمة ومخملية مغطاة بالجبن الذائب ومسقية بالقطر الأصلي الساخن.</p>
                         <div class="price-box"><span class="price-syp">85,000 ل.س</span><span class="price-usd">/ 6$</span></div>
-                        <button class="btn-buy" onclick="orderProduct('كنافة ناعمة بالفرن', '85,000 ل.س', '/ 6$')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن</button>
+                        <button class="btn-buy" onclick="addToCart('كنافة ناعمة بالفرن', '85,000 ل.س', '/ 6$')"><i class="fa-solid fa-cart-plus"></i> إضافة إلى السلة</button>
                     </div>
                 </div>
                 <div class="product-card">
@@ -88,7 +89,7 @@
                         <h3>زنود الست بالقشطة العربية</h3>
                         <p class="desc">رقائق عجين مقرمشة محشية بالقشطة البلدية الطازجة ومغمورة بالفستق الحلبي.</p>
                         <div class="price-box"><span class="price-syp">95,000 ل.س</span><span class="price-usd">/ 7$</span></div>
-                        <button class="btn-buy" onclick="orderProduct('زنود الست', '95,000 ل.س', '/ 7$')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن</button>
+                        <button class="btn-buy" onclick="addToCart('زنود الست', '95,000 ل.س', '/ 7$')"><i class="fa-solid fa-cart-plus"></i> إضافة إلى السلة</button>
                     </div>
                 </div>
             </div>
@@ -104,7 +105,7 @@
                         <h3>مبرومة فستق حلبي ملكية</h3>
                         <p class="desc">أصابع المبرومة المصنوعة بعناية، مغمورة كلياً بالفستق الحلبي الأخضر الصافي.</p>
                         <div class="price-box"><span class="price-syp">110,000 ل.س</span><span class="price-usd">/ 8$</span></div>
-                        <button class="btn-buy" onclick="orderProduct('مبرومة فستق ملكية', '110,000 ل.س', '/ 8$')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن</button>
+                        <button class="btn-buy" onclick="addToCart('مبرومة فستق ملكية', '110,000 ل.س', '/ 8$')"><i class="fa-solid fa-cart-plus"></i> إضافة إلى السلة</button>
                     </div>
                 </div>
                 <div class="product-card">
@@ -113,7 +114,7 @@
                         <h3>بقلاوة مشكلة باللوز والفستق</h3>
                         <p class="desc">تشكيلة ملكية من رقائق العجين الهشة المحشية بالمكسرات ومزينة بورد الجوري.</p>
                         <div class="price-box"><span class="price-syp">85,000 ل.س</span><span class="price-usd">/ 6$</span></div>
-                        <button class="btn-buy" onclick="orderProduct('بقلاوة مشكلة', '85,000 ل.س', '/ 6$')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن</button>
+                        <button class="btn-buy" onclick="addToCart('بقلاوة مشكلة', '85,000 ل.س', '/ 6$')"><i class="fa-solid fa-cart-plus"></i> إضافة إلى السلة</button>
                     </div>
                 </div>
                 <div class="product-card">
@@ -122,7 +123,7 @@
                         <h3>هرم البللورية بالفستق الصافي</h3>
                         <p class="desc">شكل هرمي فاخر من شعيرية البللورية المحمصة ومملوءة تماماً بالفستق الحلبي الأخضر.</p>
                         <div class="price-box"><span class="price-syp">115,000 ل.س</span><span class="price-usd">/ 8.5$</span></div>
-                        <button class="btn-buy" onclick="orderProduct('هرم البللورية', '115,000 ل.س', '/ 8.5$')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن</button>
+                        <button class="btn-buy" onclick="addToCart('هرم البللورية', '115,000 ل.س', '/ 8.5$')"><i class="fa-solid fa-cart-plus"></i> إضافة إلى السلة</button>
                     </div>
                 </div>
                 <div class="product-card">
@@ -131,7 +132,7 @@
                         <h3>صينية بللورية دائرية فاخرة</h3>
                         <p class="desc">صينية دائرية منسقة بعناية لتقدم أشهى طعم مقرمش وغني بالفستق الحلبي.</p>
                         <div class="price-box"><span class="price-syp">105,000 ل.س</span><span class="price-usd">/ 7.5$</span></div>
-                        <button class="btn-buy" onclick="orderProduct('صينية بللورية دائرية', '105,000 ل.س', '/ 7.5$')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن</button>
+                        <button class="btn-buy" onclick="addToCart('صينية بللورية دائرية', '105,000 ل.س', '/ 7.5$')"><i class="fa-solid fa-cart-plus"></i> إضافة إلى السلة</button>
                     </div>
                 </div>
             </div>
@@ -147,7 +148,7 @@
                         <h3>حلاوة الجبن الحمصية الأصيلة</h3>
                         <p class="desc">عجينة الجبن والسميد الطرية، محشية بالقشطة البلدية الغنية ومزينة بالفستق.</p>
                         <div class="price-box"><span class="price-syp">80,000 ل.س</span><span class="price-usd">/ 5.5$</span></div>
-                        <button class="btn-buy" onclick="orderProduct('حلاوة الجبن الحمصية', '80,000 ل.س', '/ 5.5$')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن</button>
+                        <button class="btn-buy" onclick="addToCart('حلاوة الجبن الحمصية', '80,000 ل.س', '/ 5.5$')"><i class="fa-solid fa-cart-plus"></i> إضافة إلى السلة</button>
                     </div>
                 </div>
                 <div class="product-card">
@@ -156,7 +157,7 @@
                         <h3>قطايف عصافيري بالقشطة</h3>
                         <p class="desc">حبات القطايف الطازجة المصنوعة يومياً، المحشية بالقشطة ومغمورة بالفستق.</p>
                         <div class="price-box"><span class="price-syp">75,000 ل.س</span><span class="price-usd">/ 5$</span></div>
-                        <button class="btn-buy" onclick="orderProduct('قطايف عصافيري بالقشطة', '75,000 ل.س', '/ 5$')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن</button>
+                        <button class="btn-buy" onclick="addToCart('قطايف عصافيري بالقشطة', '75,000 ل.س', '/ 5$')"><i class="fa-solid fa-cart-plus"></i> إضافة إلى السلة</button>
                     </div>
                 </div>
                 <div class="product-card">
@@ -165,7 +166,7 @@
                         <h3>بوظة عربية بالفستق الحلبي</h3>
                         <p class="desc">بوظة المستكة الحرة المدقوقة عراقةً وأصالة، مغطاة بالفستق الحلبي الغزير.</p>
                         <div class="price-box"><span class="price-syp">70,000 ل.س</span><span class="price-usd">/ 5$</span></div>
-                        <button class="btn-buy" onclick="orderProduct('بوظة عربية بالفستق', '70,000 ل.س', '/ 5$')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن</button>
+                        <button class="btn-buy" onclick="addToCart('بوظة عربية بالفستق', '70,000 ل.س', '/ 5$')"><i class="fa-solid fa-cart-plus"></i> إضافة إلى السلة</button>
                     </div>
                 </div>
                 <div class="product-card">
@@ -174,7 +175,7 @@
                         <h3>ليالي لبنان بالقشطة والورد</h3>
                         <p class="desc">طبقات ناعمة من السميد والحليب المغطاة بالقشطة الطازجة والمزينة بالفستق.</p>
                         <div class="price-box"><span class="price-syp">65,000 ل.س</span><span class="price-usd">/ 4.5$</span></div>
-                        <button class="btn-buy" onclick="orderProduct('ليالي لبنان', '65,000 ل.س', '/ 4.5$')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن</button>
+                        <button class="btn-buy" onclick="addToCart('ليالي لبنان', '65,000 ل.س', '/ 4.5$')"><i class="fa-solid fa-cart-plus"></i> إضافة إلى السلة</button>
                     </div>
                 </div>
             </div>
@@ -190,7 +191,7 @@
                         <h3>مشابك وعوامة مقرمشة</h3>
                         <p class="desc">حبات العوامة والمشابك الذهبية المغمورة بالقطر الساخن ورشة فستق حلبي.</p>
                         <div class="price-box"><span class="price-syp">55,000 ل.س</span><span class="price-usd">/ 3.5$</span></div>
-                        <button class="btn-buy" onclick="orderProduct('مشابك وعوامة مقرمشة', '55,000 ل.س', '/ 3.5$')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن</button>
+                        <button class="btn-buy" onclick="addToCart('مشابك وعوامة مقرمشة', '55,000 ل.س', '/ 3.5$')"><i class="fa-solid fa-cart-plus"></i> إضافة إلى السلة</button>
                     </div>
                 </div>
                 <div class="product-card">
@@ -199,7 +200,7 @@
                         <h3>بلح الشام المقرمش بالسمن</h3>
                         <p class="desc">أصابع بلح الشام المقرمشة من الخارج والطرية من الداخل، مغطاة بالقطر الغزير.</p>
                         <div class="price-box"><span class="price-syp">60,000 ل.س</span><span class="price-usd">/ 4$</span></div>
-                        <button class="btn-buy" onclick="orderProduct('بلح الشام المقرمش', '60,000 ل.س', '/ 4$')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن</button>
+                        <button class="btn-buy" onclick="addToCart('بلح الشام المقرمش', '60,000 ل.س', '/ 4$')"><i class="fa-solid fa-cart-plus"></i> إضافة إلى السلة</button>
                     </div>
                 </div>
             </div>
@@ -215,7 +216,7 @@
                         <h3>معمول فستق وتمر بالسمن البلدي</h3>
                         <p class="desc">حبات المعمول الغنية بالسمن البلدي والمحشية بالتمر المعطر أو الفستق.</p>
                         <div class="price-box"><span class="price-syp">85,000 ل.س</span><span class="price-usd">/ 6$</span></div>
-                        <button class="btn-buy" onclick="orderProduct('معمول فستق وتمر', '85,000 ل.س', '/ 6$')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن</button>
+                        <button class="btn-buy" onclick="addToCart('معمول فستق وتمر', '85,000 ل.س', '/ 6$')"><i class="fa-solid fa-cart-plus"></i> إضافة إلى السلة</button>
                     </div>
                 </div>
                 <div class="product-card">
@@ -224,11 +225,29 @@
                         <h3>برازق شامية أصلية بالقرص الكبير</h3>
                         <p class="desc">برازق مقرمشة مغطاة بغزارة بالسمسم المحمص والفستق الحلبي على طريقة الأجداد.</p>
                         <div class="price-box"><span class="price-syp">65,000 ل.س</span><span class="price-usd">/ 4.5$</span></div>
-                        <button class="btn-buy" onclick="orderProduct('برازق شامية أصلية', '65,000 ل.س', '/ 4.5$')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن</button>
+                        <button class="btn-buy" onclick="addToCart('برازق شامية أصلية', '65,000 ل.س', '/ 4.5$')"><i class="fa-solid fa-cart-plus"></i> إضافة إلى السلة</button>
                     </div>
                 </div>
             </div>
         </section>
+    </div>
+
+    <!-- واجهة سلة المشتريات -->
+    <div id="cart-view" class="main-view">
+        <div class="page-container" style="max-width: 700px;">
+            <h2>سلة المشتريات الحالية 🛒</h2>
+            <div class="card-box">
+                <ul id="cart-items-list" style="list-style: none; padding: 0; margin-bottom: 20px;">
+                    <li style="text-align: center; opacity: 0.7; padding: 20px;">السلة فارغة حالياً.</li>
+                </ul>
+                <div style="border-top: 1px solid var(--border-color); padding-top: 15px; margin-top: 15px; text-align: left; font-weight: bold; font-size: 1.1rem;">
+                    <span>الإجمالي الكلي: </span>
+                    <span id="cart-total-syp" style="color: var(--accent-color); margin-right: 15px;">0 ل.س</span>
+                    <span id="cart-total-usd" style="opacity: 0.8;">($0.00)</span>
+                </div>
+                <button class="btn-primary full-width" onclick="checkoutCart()" style="background-color: #25D366; margin-top: 20px; font-size: 1.1rem;"><i class="fa-brands fa-whatsapp"></i> إتمام الطلب وإرسال السلة عبر الواتساب</button>
+            </div>
+        </div>
     </div>
 
     <!-- 2. واجهة حسابي وإعداداتي والمشتريات -->
@@ -308,12 +327,11 @@
                 <input type="text" id="mgr-nationalid" placeholder="الرقم الوطني">
                 <input type="email" id="mgr-email" placeholder="البريد الإلكتروني للإدارة">
                 <input type="password" id="mgr-email-pass" placeholder="كلمة سر البريد الإلكتروني">
-                <input type="password" id="mgr-app-pass" placeholder="كلمة سر التطبيق">
+                <input type="password" id="mgr-app-pass" placeholder="كلمة سر التطبيق السرية (الخاصة بالأدمن)">
                 <button class="btn-primary full-width" onclick="loginManager()">دخول لوحة التحكم</button>
             </div>
 
             <div id="manager-dashboard-box" style="display: none;">
-                <!-- صندوق فلتر التاريخ -->
                 <div class="card-box" style="margin-bottom: 20px;">
                     <label style="font-size: 0.9rem; font-weight: bold; display: block; margin-bottom: 8px;">فلتر السجلات والتاريخ (يومي، أسبوعي، شهري، أو تاريخ ماضي):</label>
                     <div style="display: flex; gap: 10px;">
@@ -323,7 +341,6 @@
                     </div>
                 </div>
 
-                <!-- صندوق ترتيب الطلبيات الجديد -->
                 <div class="card-box" style="margin-bottom: 20px; padding: 15px;">
                     <label style="font-size: 0.9rem; font-weight: bold; display: block; margin-bottom: 8px;">ترتيب الطلبيات:</label>
                     <select id="admin-sort-order" onchange="loadManagerDashboard()" style="width: 100%; padding: 8px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); border-radius: 6px;">
