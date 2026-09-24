@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>أصالة الحلويات العربية الحمصية - موسوعة حمص الكبرى</title>
+    <title>أطياب الحلويات العربية الأصيلة - موسوعة حمص الكبرى</title>
     <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
@@ -291,7 +291,7 @@
                 <p>📍 العنوان: حمص - المركز الرئيسي</p>
                 <p>📱 الهاتف / واتساب: 0981853998</p>
                 <p>⏰ أوقات العمل: يومياً من 9 الصباح حتى 12 الفجر</p>
-                <a href="https://wa.me/963939993792" target="_blank" class="btn-primary" style="display: inline-block; margin-top: 15px; background: #25D366; text-decoration: none;"><i class="fa-brands fa-whatsapp"></i> مراسلة الإدارة مباشرة</a>
+                <a href="https://wa.me/963981853998" target="_blank" class="btn-primary" style="display: inline-block; margin-top: 15px; background: #25D366; text-decoration: none;"><i class="fa-brands fa-whatsapp"></i> مراسلة الإدارة مباشرة</a>
             </div>
         </div>
     </div>
@@ -313,6 +313,7 @@
             </div>
 
             <div id="manager-dashboard-box" style="display: none;">
+                <!-- صندوق فلتر التاريخ -->
                 <div class="card-box" style="margin-bottom: 20px;">
                     <label style="font-size: 0.9rem; font-weight: bold; display: block; margin-bottom: 8px;">فلتر السجلات والتاريخ (يومي، أسبوعي، شهري، أو تاريخ ماضي):</label>
                     <div style="display: flex; gap: 10px;">
@@ -320,6 +321,15 @@
                         <button class="btn-primary" onclick="filterManagerOrders()" style="padding: 8px 16px;">بحث بالتاريخ</button>
                         <button class="btn-danger" onclick="resetManagerFilter()" style="padding: 8px 16px; background-color: #d9534f; color: #FFF;">عرض الكل</button>
                     </div>
+                </div>
+
+                <!-- صندوق ترتيب الطلبيات الجديد -->
+                <div class="card-box" style="margin-bottom: 20px; padding: 15px;">
+                    <label style="font-size: 0.9rem; font-weight: bold; display: block; margin-bottom: 8px;">ترتيب الطلبيات:</label>
+                    <select id="admin-sort-order" onchange="loadManagerDashboard()" style="width: 100%; padding: 8px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); border-radius: 6px;">
+                        <option value="newest">الأحدث أولاً ⬇️</option>
+                        <option value="oldest">الأقدم أولاً ⬆️</option>
+                    </select>
                 </div>
 
                 <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 20px; text-align: center;">

@@ -53,13 +53,24 @@ if (sidebarThemeBtn) {
 }
 
 function goToSection(sectionId) {
-    switchView('home-view');
+    switchViewHomeOnly();
     setTimeout(() => {
         const targetElement = document.getElementById(sectionId);
         if (targetElement) {
             targetElement.scrollIntoView({ behavior: 'smooth' });
         }
     }, 100);
+}
+
+function switchViewHomeOnly() {
+    document.querySelectorAll('.main-view').forEach(view => {
+        view.classList.remove('active');
+    });
+    const target = document.getElementById('home-view');
+    if (target) {
+        target.classList.add('active');
+        window.scrollTo(0, 0);
+    }
 }
 
 function fixAndNormalizeOrdersData() {
@@ -318,7 +329,27 @@ function logout() {
 }
 
 function loadManagerDashboard(filteredOrders = null) {
-    const orders = filteredOrders || JSON.parse(localStorage.getItem('userOrders')) || [];
+    let orders = filteredOrders || JSON.parse(localStorage.getItem('adminAllOrders')) || JSON.parse(localStorage.getItem('userOrders')) || [];
+    
+    // جلب خيار الترتيب من القائمة المنسدلة
+    const sortSelect = document.getElementById('admin-sort-order');
+    const sortValue = sortSelect ? sortSelect.value : 'newest';
+
+    // فرز الطلبيات (حسب الأحدث أولاً أو الأقدم أولاً)
+    orders.sort((a, b) => {
+        let dateA = new Date(a.dateTime.replace(' - ', ' '));
+        let dateB = new Date(b.dateTime.replace(' - ', ' '));
+        
+        if (isNaN(dateA)) dateA = 0;
+        if (isNaN(dateB)) dateB = 0;
+
+        if (sortValue === 'oldest') {
+            return dateA - dateB; // الأقدم أولاً
+        } else {
+            return dateB - dateA; // الأحدث أولاً
+        }
+    });
+
     const mgrFullList = document.getElementById('manager-full-orders');
     if (!mgrFullList) return;
 
@@ -390,7 +421,7 @@ function filterManagerOrders() {
     const dateInput = document.getElementById('admin-filter-date').value;
     if (!dateInput) { alert('الرجاء اختيار تاريخ أولاً!'); return; }
 
-    const orders = JSON.parse(localStorage.getItem('userOrders')) || [];
+    const orders = JSON.parse(localStorage.getItem('adminAllOrders')) || JSON.parse(localStorage.getItem('userOrders')) || [];
     const formattedInput = dateInput.replace(/-/g, '/');
     const filtered = orders.filter(o => o.dateTime && o.dateTime.includes(formattedInput));
     loadManagerDashboard(filtered);
@@ -409,14 +440,8 @@ function getNextInvoiceNumber() {
 }
 
 function orderProduct(productName, priceSyp, priceUsd) {
-    const savedName = localStorage.getItem('userName');
-    const savedPhone = localStorage.getItem('userPhone');
-    
-    if (!savedName || !savedPhone) {
-        alert('الرجاء تسجيل الدخول أولاً عبر القائمة الجانبية (حسابي وإعداداتي والمشتريات) لتتمكن من إتمام الطلب!');
-        switchView('account-view');
-        return;
-    }
+    const savedName = localStorage.getItem('userName') || "زبون زائر";
+    const savedPhone = localStorage.getItem('userPhone') || "+963988888888";
 
     const invoiceId = getNextInvoiceNumber();
     const orderId = Math.floor(1000 + Math.random() * 9000);
@@ -430,8 +455,7 @@ function orderProduct(productName, priceSyp, priceUsd) {
     const ampm = now.getHours() >= 12 ? 'PM' : 'AM';
     const dateTimeString = `${year}/${month}/${day} - ${hours}:${minutes} ${ampm}`;
 
-    const orders = JSON.parse(localStorage.getItem('userOrders')) || [];
-    orders.push({ 
+    const newOrder = { 
         invoiceId: invoiceId,
         orderId: orderId,
         customerName: savedName,
@@ -441,8 +465,15 @@ function orderProduct(productName, priceSyp, priceUsd) {
         priceSyp: priceSyp, 
         priceUsd: priceUsd, 
         dateTime: dateTimeString 
-    });
-    localStorage.setItem('userOrders', JSON.stringify(orders));
+    };
+
+    const userOrders = JSON.parse(localStorage.getItem('userOrders')) || [];
+    userOrders.push(newOrder);
+    localStorage.setItem('userOrders', JSON.stringify(userOrders));
+
+    const allAdminOrders = JSON.parse(localStorage.getItem('adminAllOrders')) || [];
+    allAdminOrders.push(newOrder);
+    localStorage.setItem('adminAllOrders', JSON.stringify(allAdminOrders));
 
     checkUserState();
 
